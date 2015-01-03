@@ -4,10 +4,8 @@ class window.Hand extends Backbone.Collection
   initialize: (array, @deck, @isDealer) ->
 
   hit: ->
-    if @isDealer
-      console.log('Dealer chooses to hit.')
-    else
-      console.log('Player chooses to hit.')
+    if @isDealer then console.log('Dealer chooses to hit.')
+    else console.log('Player chooses to hit.')
     @add(@deck.pop())
 
   hasAce: -> @reduce (memo, card) ->
@@ -26,11 +24,11 @@ class window.Hand extends Backbone.Collection
 
   reveal: ->
     @.each( -> 
-      if !arguments[0].attributes['revealed']
-        arguments[0].flip()
+      if !arguments[0].attributes['revealed'] then arguments[0].flip()
       return
       )
 
   redeal: ->
-    @remove() while @models.length > 0
+    while @models.length > 0
+      @remove()
     return

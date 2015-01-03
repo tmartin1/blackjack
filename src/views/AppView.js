@@ -9,19 +9,24 @@ window.AppView = (function(_super) {
     return AppView.__super__.constructor.apply(this, arguments);
   }
 
-  AppView.prototype.template = _.template('<button class="hit-button">Hit</button> <button class="stand-button">Stand</button> <div class="player-hand-container"></div> <div class="dealer-hand-container"></div>');
+  AppView.prototype.template = _.template('<div class="dealer-hand-container"></div><br> <div class="player-hand-container"></div><br> <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>');
 
   AppView.prototype.events = {
     'click .hit-button': function() {
       this.model.get('playerHand').hit();
-      return this.checkScore();
+      return this.model.checkScore();
     },
     'click .stand-button': function() {
-      return this.playDealer();
+      return this.model.playDealer();
     }
   };
 
   AppView.prototype.initialize = function() {
+    this.model.on('change', (function(_this) {
+      return function() {
+        return _this.render();
+      };
+    })(this));
     return this.render();
   };
 
@@ -34,34 +39,6 @@ window.AppView = (function(_super) {
     return this.$('.dealer-hand-container').html(new HandView({
       collection: this.model.get('dealerHand')
     }).el);
-  };
-
-  AppView.prototype.checkScore = function() {
-    if (this.model.get('playerHand').minScore() > 21) {
-      this.model.get('dealerHand').reveal();
-      return this.restart('You lose!');
-    }
-  };
-
-  AppView.prototype.playDealer = function() {
-    var dealer, player;
-    dealer = this.model.get('dealerHand');
-    player = this.model.get('playerHand');
-    dealer.reveal();
-    while (dealer.minScore() < 21 && dealer.minScore() < player.minScore()) {
-      dealer.hit();
-    }
-    if (dealer.minScore() > 21) {
-      return this.restart('You win!', true);
-    } else {
-      return this.restart('Dealer wins!');
-    }
-  };
-
-  AppView.prototype.restart = function() {
-    alert(arguments[0]);
-    this.model.initialize();
-    this.render();
   };
 
   return AppView;

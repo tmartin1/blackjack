@@ -10,10 +10,54 @@ window.App = (function(_super) {
   }
 
   App.prototype.initialize = function() {
+    this.set({
+      playerWins: 0,
+      dealerWins: 0
+    });
+    return this.render();
+  };
+
+  App.prototype.render = function() {
     var deck;
     this.set('deck', deck = new Deck());
     this.set('playerHand', deck.dealPlayer());
     return this.set('dealerHand', deck.dealDealer());
+  };
+
+  App.prototype.checkScore = function() {
+    if (this.attributes.playerHand.minScore() > 21) {
+      this.attributes.dealerHand.reveal();
+      return this.restart('You lose!');
+    }
+  };
+
+  App.prototype.playDealer = function() {
+    var dealer, player;
+    dealer = this.attributes.dealerHand;
+    player = this.attributes.playerHand;
+    dealer.reveal();
+    while (dealer.minScore() < 21 && dealer.minScore() < player.minScore()) {
+      dealer.hit();
+    }
+    if (dealer.minScore() > 21) {
+      this.restart('You win!', true);
+    } else {
+      this.restart('Dealer wins!');
+    }
+  };
+
+  App.prototype.restart = function(message, playerWin) {
+    alert(message);
+    this.render();
+    this.rescore(playerWin);
+  };
+
+  App.prototype.rescore = function(playerWin) {
+    if (playerWin) {
+      $('#playerWins').text(++this.attributes.playerWins);
+    } else {
+      $('#dealerWins').text(++this.attributes.dealerWins);
+    }
   };
 
   return App;

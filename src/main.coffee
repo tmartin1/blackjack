@@ -1,1 +1,3 @@
-new AppView(model: new App()).$el.appendTo 'body'
+blackjackApp = new App()
+new GameView(model: blackjackApp).$el.appendTo 'body'
+new AppView(model: blackjackApp).$el.appendTo '#gameBoard'
