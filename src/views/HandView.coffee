@@ -12,5 +12,20 @@ class window.HandView extends Backbone.View
     @$el.html @template @collection
     @$el.append @collection.map (card) ->
       new CardView(model: card).$el
+    # if @collection.scores()[0] is 21 then @win()
+    if @collection.scores()[0] > 21 then @bust()
     @$('.score').text @collection.scores()[0]
 
+  bust: ->
+    if @collection.isDealer
+      console.log('You win!')
+    else
+      console.log('You Lose!')
+    return
+
+  # win: ->
+  #   if @collection.isDealer
+  #     console.log('Dealer wins!')
+  #   else
+  #     console.log('You win!')
+  #   return
