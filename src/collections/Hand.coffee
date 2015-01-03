@@ -4,16 +4,11 @@ class window.Hand extends Backbone.Collection
   initialize: (array, @deck, @isDealer) ->
 
   hit: ->
+    if @isDealer
+      console.log('Dealer chooses to hit.')
+    else
+      console.log('Player chooses to hit.')
     @add(@deck.pop())
-
-  # While hit can be called by both the player and the dealer, stand will only ever be 
-  # called by the player because the dealer will hit until they win or lose. However, 
-  # because this will impact the dealer hand, this function will only be executed on the
-  # dealer's hand.
-  stand: ->
-    @reveal()
-    @hit() while @minScore() < 21 and @minScore() < $('.score')[0].innerText
-    return
 
   hasAce: -> @reduce (memo, card) ->
     memo or card.get('value') is 1

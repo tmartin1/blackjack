@@ -17,14 +17,12 @@ window.Hand = (function(_super) {
   };
 
   Hand.prototype.hit = function() {
-    return this.add(this.deck.pop());
-  };
-
-  Hand.prototype.stand = function() {
-    this.reveal();
-    while (this.minScore() < 21 && this.minScore() < $('.score')[0].innerText) {
-      this.hit();
+    if (this.isDealer) {
+      console.log('Dealer chooses to hit.');
+    } else {
+      console.log('Player chooses to hit.');
     }
+    return this.add(this.deck.pop());
   };
 
   Hand.prototype.hasAce = function() {

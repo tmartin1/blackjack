@@ -30,18 +30,7 @@ window.HandView = (function(_super) {
         model: card
       }).$el;
     }));
-    if (this.collection.scores()[0] > 21) {
-      this.bust();
-    }
     return this.$('.score').text(this.collection.scores()[0]);
-  };
-
-  HandView.prototype.bust = function() {
-    if (this.collection.isDealer) {
-      console.log('You win!');
-    } else {
-      console.log('You Lose!');
-    }
   };
 
   return HandView;

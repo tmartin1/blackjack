@@ -13,10 +13,12 @@ window.AppView = (function(_super) {
 
   AppView.prototype.events = {
     'click .hit-button': function() {
-      return this.model.get('playerHand').hit();
+      this.model.get('playerHand').hit();
+      return this.checkScore();
     },
     'click .stand-button': function() {
-      return this.model.get('dealerHand').stand();
+      this.playDealer();
+      return this.model.get('playerHand').hit = function() {};
     }
   };
 
@@ -33,6 +35,33 @@ window.AppView = (function(_super) {
     return this.$('.dealer-hand-container').html(new HandView({
       collection: this.model.get('dealerHand')
     }).el);
+  };
+
+  AppView.prototype.checkScore = function() {
+    if (this.model.get('playerHand').minScore() > 21) {
+      this.model.get('dealerHand').reveal();
+      return this.restart('You lose!');
+    }
+  };
+
+  AppView.prototype.playDealer = function() {
+    var dealer, player;
+    dealer = this.model.get('dealerHand');
+    player = this.model.get('playerHand');
+    dealer.reveal();
+    while (dealer.minScore() < 21 && dealer.minScore() < player.minScore()) {
+      dealer.hit();
+    }
+    if (dealer.minScore() > 21) {
+      return this.restart('You win!');
+    } else {
+      return this.restart('Dealer wins!');
+    }
+  };
+
+  AppView.prototype.restart = function() {
+    alert(arguments[0]);
+    this.render;
   };
 
   return AppView;
