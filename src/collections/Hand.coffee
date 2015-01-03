@@ -31,3 +31,6 @@ class window.Hand extends Backbone.Collection
       return
       )
 
+  redeal: ->
+    @remove() while @models.length > 0
+    return

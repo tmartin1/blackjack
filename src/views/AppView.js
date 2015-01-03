@@ -17,8 +17,7 @@ window.AppView = (function(_super) {
       return this.checkScore();
     },
     'click .stand-button': function() {
-      this.playDealer();
-      return this.model.get('playerHand').hit = function() {};
+      return this.playDealer();
     }
   };
 
@@ -53,7 +52,7 @@ window.AppView = (function(_super) {
       dealer.hit();
     }
     if (dealer.minScore() > 21) {
-      return this.restart('You win!');
+      return this.restart('You win!', true);
     } else {
       return this.restart('Dealer wins!');
     }
@@ -61,7 +60,8 @@ window.AppView = (function(_super) {
 
   AppView.prototype.restart = function() {
     alert(arguments[0]);
-    this.render;
+    this.model.initialize();
+    this.render();
   };
 
   return AppView;

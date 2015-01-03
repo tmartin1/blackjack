@@ -49,6 +49,12 @@ window.Hand = (function(_super) {
     });
   };
 
+  Hand.prototype.redeal = function() {
+    while (this.models.length > 0) {
+      this.remove();
+    }
+  };
+
   return Hand;
 
 })(Backbone.Collection);

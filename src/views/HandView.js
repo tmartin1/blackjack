@@ -11,10 +11,10 @@ window.HandView = (function(_super) {
 
   HandView.prototype.className = 'hand';
 
-  HandView.prototype.template = _.template('<h2><% if(isDealer){ %>Dealer<% }else{ %>You<% } %> (<span class="score"></span>)</h2>');
+  HandView.prototype.template = _.template('<h2><% if(isDealer){ %>Dealer<% }else{ %>You<% } %> (<span class="score"></span>)');
 
   HandView.prototype.initialize = function() {
-    this.collection.on('add remove change', (function(_this) {
+    this.collection.on('add remove change initialize', (function(_this) {
       return function() {
         return _this.render();
       };

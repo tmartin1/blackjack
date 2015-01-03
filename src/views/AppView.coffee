@@ -11,7 +11,6 @@ class window.AppView extends Backbone.View
       @checkScore()
     'click .stand-button': ->
       @playDealer()
-      @model.get('playerHand').hit = -> return # player cannot hit after standing
 
   initialize: ->
     @render()
@@ -33,12 +32,13 @@ class window.AppView extends Backbone.View
     dealer.reveal()
     dealer.hit() while dealer.minScore() < 21 and dealer.minScore() < player.minScore()
     if dealer.minScore() > 21
-      @restart('You win!')
+      @restart('You win!', true)
     else
       @restart('Dealer wins!')
 
   restart: ->
     alert(arguments[0])
-    @render
+    @model.initialize()
+    @render()
     return
 
